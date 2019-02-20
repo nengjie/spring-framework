@@ -16,14 +16,10 @@
 
 package org.springframework.util.xml;
 
-import java.io.BufferedReader;
-import java.io.CharConversionException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
+
+import java.io.*;
 
 /**
  * Detects whether an XML stream is using DTD- or XSD-based validation.
@@ -91,13 +87,19 @@ public class XmlValidationModeDetector {
 		// Peek into the file to look for DOCTYPE.
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 		try {
+
+			// 是否为 DTD 校验模式。默认为，非 DTD 模式，即 XSD 模式
 			boolean isDtdValidated = false;
 			String content;
+			// 循环读取xml的内容
 			while ((content = reader.readLine()) != null) {
+
+				// 如果是注释，或者为空行则跳过
 				content = consumeCommentTokens(content);
 				if (this.inComment || !StringUtils.hasText(content)) {
 					continue;
 				}
+				// 包含 DOCTYPE 为 DTD 模式
 				if (hasDoctype(content)) {
 					isDtdValidated = true;
 					break;
@@ -107,6 +109,7 @@ public class XmlValidationModeDetector {
 					break;
 				}
 			}
+			// 返回 VALIDATION_DTD or VALIDATION_XSD 模式
 			return (isDtdValidated ? VALIDATION_DTD : VALIDATION_XSD);
 		}
 		catch (CharConversionException ex) {
@@ -137,6 +140,7 @@ public class XmlValidationModeDetector {
 			return false;
 		}
 		int openTagIndex = content.indexOf('<');
+		// 判断如果这一行包含 < ，并且 < 紧跟着的是字幕，则为 XSD 验证模式。
 		return (openTagIndex > -1 && (content.length() > openTagIndex + 1) &&
 				Character.isLetter(content.charAt(openTagIndex + 1)));
 	}
@@ -149,6 +153,8 @@ public class XmlValidationModeDetector {
 	 */
 	@Nullable
 	private String consumeCommentTokens(String line) {
+
+		// 非注释
 		if (!line.contains(START_COMMENT) && !line.contains(END_COMMENT)) {
 			return line;
 		}
