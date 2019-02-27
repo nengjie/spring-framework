@@ -80,6 +80,7 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	 * from the given XML file and automatically refreshing the context.
 	 * @param configLocation file path
 	 * @throws BeansException if context creation failed
+	 * 这个构造器的 configLocation 包含的是 beandefinition 所在的文件路径
 	 */
 	public FileSystemXmlApplicationContext(String configLocation) throws BeansException {
 		this(new String[] {configLocation}, true, null);
@@ -90,6 +91,7 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	 * from the given XML files and automatically refreshing the context.
 	 * @param configLocations array of file paths
 	 * @throws BeansException if context creation failed
+	 * 这个构造器的 configLocation 包含的是多个 beandefinition 所在的文件路径
 	 */
 	public FileSystemXmlApplicationContext(String... configLocations) throws BeansException {
 		this(configLocations, true, null);
@@ -102,6 +104,7 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	 * @param configLocations array of file paths
 	 * @param parent the parent context
 	 * @throws BeansException if context creation failed
+	 * 这个构造器的 configLocation 包含的是多个 beandefinition 所在的文件路径，同时可以指定自已的双亲IOC容器
 	 */
 	public FileSystemXmlApplicationContext(String[] configLocations, ApplicationContext parent) throws BeansException {
 		this(configLocations, true, parent);
@@ -131,6 +134,7 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	 * @param parent the parent context
 	 * @throws BeansException if context creation failed
 	 * @see #refresh()
+	 * 对象初始化过程，调用refresh方法载入beandefinition， 启动beandefinition的载入过程
 	 */
 	public FileSystemXmlApplicationContext(
 			String[] configLocations, boolean refresh, @Nullable ApplicationContext parent)
@@ -152,6 +156,7 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	 * @param path path to the resource
 	 * @return the Resource handle
 	 * @see org.springframework.web.context.support.XmlWebApplicationContext#getResourceByPath
+	 *
 	 */
 	@Override
 	protected Resource getResourceByPath(String path) {

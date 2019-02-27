@@ -16,22 +16,17 @@
 
 package org.springframework.core.env;
 
-import java.security.AccessControlException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.core.SpringProperties;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+
+import java.security.AccessControlException;
+import java.util.*;
 
 /**
  * Abstract base class for {@link Environment} implementations. Supports the notion of
@@ -45,7 +40,7 @@ import org.springframework.util.StringUtils;
  * hook, while clients should customize using {@link ConfigurableEnvironment#getPropertySources()}
  * and working against the {@link MutablePropertySources} API.
  * See {@link ConfigurableEnvironment} javadoc for usage examples.
- *
+ *	实现了 ConfigurableEnvironment 接口，默认属性和存储容器的定义，并且实现了 ConfigurableEnvironment 的方法，并且为子类预留可覆盖了扩展方法
  * @author Chris Beams
  * @author Juergen Hoeller
  * @since 3.1
@@ -252,8 +247,11 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 			logger.debug("Activating profiles " + Arrays.asList(profiles));
 		}
 		synchronized (this.activeProfiles) {
+			// 清空 activeProfiles
 			this.activeProfiles.clear();
+			// 遍历 profiles 数组，添加到 activeProfiles 中
 			for (String profile : profiles) {
+				// 校验
 				validateProfile(profile);
 				this.activeProfiles.add(profile);
 			}

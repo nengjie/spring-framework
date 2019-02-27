@@ -44,7 +44,7 @@ package org.springframework.core.env;
  * <p>See {@link SystemEnvironmentPropertySource} javadoc for details on special handling
  * of property names in shell environments (e.g. Bash) that disallow period characters in
  * variable names.
- *
+ *	继承自 AbstractEnvironment ，非 Servlet(Web) 环境下的标准 Environment 实现
  * @author Chris Beams
  * @since 3.1
  * @see ConfigurableEnvironment

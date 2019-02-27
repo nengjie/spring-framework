@@ -64,6 +64,7 @@ import java.util.Map;
  * org.springframework.context.support.PropertySourcesPlaceholderConfigurer property
  * placeholder configurers}.
  *
+ * 提供设置激活的 profile 和默认的 profile 的功能以及操作 Properties 的工具
  * @author Chris Beams
  * @since 3.1
  * @see StandardEnvironment
@@ -98,6 +99,8 @@ public interface ConfigurableEnvironment extends Environment, ConfigurableProper
 	 * are explicitly made active through {@link #setActiveProfiles}.
 	 * @throws IllegalArgumentException if any profile is null, empty or whitespace-only
 	 * @see AbstractEnvironment#DEFAULT_PROFILES_PROPERTY_NAME
+	 *
+	 * 设置默认的 profile
 	 */
 	void setDefaultProfiles(String... profiles);
 
@@ -115,6 +118,8 @@ public interface ConfigurableEnvironment extends Environment, ConfigurableProper
 	 * sources such as the set of system properties or the set of system environment
 	 * variables.
 	 * @see AbstractEnvironment#customizePropertySources
+	 *
+	 * 返回此环境的 PropertySources
 	 */
 	MutablePropertySources getPropertySources();
 
@@ -130,6 +135,8 @@ public interface ConfigurableEnvironment extends Environment, ConfigurableProper
 	 * {@link IllegalAccessException}; in cases where the SecurityManager forbids access
 	 * to a property, {@code null} will be returned and an INFO-level log message will be
 	 * issued noting the exception.
+	 *
+	 * 尝试返回 System.getenv() 的值，若失败则返回通过 System.getenv(string) 的来访问各个键的映射
 	 */
 	Map<String, Object> getSystemProperties();
 
@@ -145,6 +152,7 @@ public interface ConfigurableEnvironment extends Environment, ConfigurableProper
 	 * {@link IllegalAccessException}; in cases where the SecurityManager forbids access
 	 * to a property, {@code null} will be returned and an INFO-level log message will be
 	 * issued noting the exception.
+	 *  尝试返回 System.getProperties() 的值，若失败则返回通过 System.getProperties(string) 的来访问各个键的映射
 	 */
 	Map<String, Object> getSystemEnvironment();
 

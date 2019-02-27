@@ -16,12 +16,8 @@
 
 package org.springframework.core.env;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.core.convert.support.DefaultConversionService;
@@ -31,9 +27,13 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.PropertyPlaceholderHelper;
 import org.springframework.util.SystemPropertyUtils;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 /**
  * Abstract base class for resolving properties against any underlying source.
  *
+ * 解析属性文件的抽象基类
  * @author Chris Beams
  * @author Juergen Hoeller
  * @since 3.1
@@ -67,6 +67,7 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 	public ConfigurableConversionService getConversionService() {
 		// Need to provide an independent DefaultConversionService, not the
 		// shared DefaultConversionService used by PropertySourcesPropertyResolver.
+		// 需要提供独立的DefaultConversionService，而不是PropertySourcesPropertyResolver 使用的共享DefaultConversionService
 		ConfigurableConversionService cs = this.conversionService;
 		if (cs == null) {
 			synchronized (this) {
@@ -233,6 +234,12 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 				this.valueSeparator, ignoreUnresolvablePlaceholders);
 	}
 
+	/**
+	 *
+	 * @param text  待解析的字符串
+	 * @param helper 	用于解析占位符的工具类
+	 * @return
+	 */
 	private String doResolvePlaceholders(String text, PropertyPlaceholderHelper helper) {
 		return helper.replacePlaceholders(text, this::getPropertyAsRawString);
 	}
@@ -260,6 +267,7 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 			}
 			conversionServiceToUse = DefaultConversionService.getSharedInstance();
 		}
+		// 执行转换
 		return conversionServiceToUse.convert(value, targetType);
 	}
 
